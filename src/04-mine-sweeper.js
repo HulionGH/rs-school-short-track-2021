@@ -21,8 +21,40 @@
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new Error('Not implemented');
+function minesweeper(matrix) {
+  const minesField = matrix.map((row) => (row.map(() => 0)));
+  minesField.forEach((row, rIndx) => {
+    row.forEach((col, cIndx) => {
+      if (matrix[rIndx][cIndx]) {
+        if (rIndx > 0) {
+          minesField[rIndx - 1][cIndx]++;
+        }
+        if (cIndx < row.length - 1) {
+          minesField[rIndx][cIndx + 1]++;
+        }
+        if (rIndx < matrix.length - 1) {
+          minesField[rIndx + 1][cIndx]++;
+        }
+        if (cIndx > 0) {
+          minesField[rIndx][cIndx - 1]++;
+        }
+        if (rIndx > 0 && cIndx < row.length - 1) {
+          minesField[rIndx - 1][cIndx + 1]++;
+        }
+        if (cIndx < row.length - 1 && rIndx < matrix.length - 1) {
+          minesField[rIndx + 1][cIndx + 1]++;
+        }
+        if (rIndx < matrix.length - 1 && cIndx > 0) {
+          minesField[rIndx + 1][cIndx - 1]++;
+        }
+        if (cIndx > 0 && rIndx > 0) {
+          minesField[rIndx - 1][cIndx - 1]++;
+        }
+      }
+    });
+  });
+  minesField.map((row, rIndx) => (row.map((col, cIndx) => (matrix[rIndx][cIndx] ? 1 : col))));
+  return minesField;
 }
 
 module.exports = minesweeper;
