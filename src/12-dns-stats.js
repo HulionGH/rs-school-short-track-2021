@@ -18,10 +18,22 @@
  *   '.ru.yandex.code': 1,
  *   '.ru.yandex.music': 1,
  * }
- *
  */
-function getDNSStats(/* domains */) {
-  throw new Error('Not implemented');
+function getDNSStats(domains) {
+  const splitDomains = domains.map((domain) => (domain.split('.')));
+  return splitDomains.reduce((dnsT, splitDomain) => {
+    const dns = dnsT;
+    let dnsName = '';
+    splitDomain.reverse().forEach((dnselement) => {
+      dnsName += `.${dnselement}`;
+      if (dns[dnsName]) {
+        dns[dnsName] += 1;
+      } else {
+        dns[dnsName] = 1;
+      }
+    });
+    return dns;
+  }, {});
 }
 
 module.exports = getDNSStats;
